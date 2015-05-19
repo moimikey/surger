@@ -1,0 +1,39 @@
+{
+  "name": "shitty-uber",
+  "version": "0.1.0",
+  "description": "CLI wifi gps powered surge pricing indicator for Uber",
+  "main": "index.js",
+  "scripts": {
+    "surge": "babel ./lib/index.js | node",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moimikey/shitty-uber.git"
+  },
+  "keywords": [
+    "uber",
+    "surge",
+    "surge",
+    "pricing",
+    "cabs",
+    "taxi",
+    "gps",
+    "wifi"
+  ],
+  "author": "Michael Scott Hertzberg <mshertzberg@gmail.com> (http://michael.hertzberg.co/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/moimikey/shitty-uber/issues"
+  },
+  "homepage": "https://github.com/moimikey/shitty-uber",
+  "optionalDependencies": {
+    "babel": "^5.4.3",
+    "chalk": "^1.0.0",
+    "text-table": "^0.2.0"
+  },
+  "dependencies": {
+    "uber-api": "^0.2.3",
+    "wifi-location": "0.0.1"
+  }
+}
