@@ -26,6 +26,10 @@
   "bugs": {
     "url": "https://github.com/moimikey/shitty-uber/issues"
   },
+  "uber": {
+    "server_token": "x6SAyWgpNOXZok67eaHRzYzRWEsDOgsGRn4xbjui",
+    "version": "v1"
+  },
   "homepage": "https://github.com/moimikey/shitty-uber",
   "optionalDependencies": {
     "babel": "^5.4.3",
