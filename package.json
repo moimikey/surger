@@ -38,7 +38,6 @@
     "text-table": "^0.2.0"
   },
   "dependencies": {
-    "core-js": "^0.9.13",
     "uber-api": "^0.2.3",
     "wifi-location": "0.0.1"
   },
