@@ -44,6 +44,6 @@
   },
   "preferGlobal": true,
   "bin": {
-    "surge": "./index.js"
+    "surger": "./index.js"
   }
 }
