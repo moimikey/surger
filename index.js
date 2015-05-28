@@ -1,2 +1,4 @@
+#!/usr/bin/env node
 'use strict';
-module.exports = require('./lib');
+var Surge = require('./lib');
+new Surge;

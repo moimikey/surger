@@ -1,10 +1,11 @@
 {
-  "name": "shitty-uber",
-  "version": "0.1.0",
+  "name": "surge",
+  "version": "0.2.0",
   "description": "CLI wifi gps powered surge pricing indicator for Uber",
   "main": "index.js",
   "scripts": {
-    "surge": "babel ./lib/index.js | node",
+    "pile": "babel -d lib/ src/",
+    "prepublish": "npm run pile",
     "test": "jest"
   },
   "repository": {
@@ -37,7 +38,12 @@
     "text-table": "^0.2.0"
   },
   "dependencies": {
+    "core-js": "^0.9.13",
     "uber-api": "^0.2.3",
     "wifi-location": "0.0.1"
+  },
+  "preferGlobal": true,
+  "bin": {
+    "surge": "./index.js"
   }
 }
