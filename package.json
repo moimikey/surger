@@ -37,7 +37,8 @@
     "chalk": "^1.0.0"
   },
   "dependencies": {
-    "uber-api": "^0.2.3",
+    "node-geocoder": "^2.21.0",
+    "uber-api": "^0.3.3",
     "wifi-location": "0.0.1"
   },
   "preferGlobal": true,

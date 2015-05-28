@@ -60,7 +60,7 @@ export default class Surge {
   }
 
   getPriceEstimateFromLatLng(cb, lat, lng) {
-    uber.getPriceEstimate(lat, lng, lat, lng, (err, resp) => {
+    uber.getPriceEstimate({ sLat: lat, sLng: lng, eLat: lat, eLng: lng }, (err, resp) => {
       if (err) return cb(err);
       this.estimates = resp.prices.map((type) => {
         let good = yay(' ✔ GOOD ');
