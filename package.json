@@ -1,6 +1,6 @@
 {
   "name": "surger",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "CLI wifi gps powered surge pricing indicator for Uber",
   "main": "index.js",
   "scripts": {
@@ -34,8 +34,7 @@
   "homepage": "https://github.com/moimikey/shitty-uber",
   "optionalDependencies": {
     "babel": "^5.4.3",
-    "chalk": "^1.0.0",
-    "text-table": "^0.2.0"
+    "chalk": "^1.0.0"
   },
   "dependencies": {
     "uber-api": "^0.2.3",
