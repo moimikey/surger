@@ -9,7 +9,7 @@ Is there surge pricing around me right now? This little CLI utility will determi
 $ npm -g install surger
 $ surger
 
-Location:  Nearby East 2nd Street
+Location:   Nearby East 2nd Street
 
 uberX       ✔ GOOD
 uberXL      ✔ GOOD
@@ -18,15 +18,17 @@ UberSUV     $ SURGE 2.8x
 uberT       ✔ GOOD
 ```
 
+> yaaaasss queen yaaaaasssss
+
 [npm-version-url]: https://www.npmjs.com/package/surger
 [npm-version-image]: https://img.shields.io/npm/v/surger.svg
 [npm-license-url]: https://github.com/moimikey/shitty-uber/blob/master/LICENSE
 [npm-license-image]: https://img.shields.io/npm/l/surger.svg
 [npm-downloads-url]: https://www.npmjs.com/package/surger
 [npm-downloads-image]: https://img.shields.io/npm/dm/surger.svg
-[npm-deps-url]: https://david-dm.org/moimikey/surger
-[npm-deps-image]: https://img.shields.io/david/moimikey/surger.svg
-[npm-devdeps-url]: https://david-dm.org/moimikey/surger
-[npm-devdeps-image]: https://img.shields.io/david/dev/moimikey/surger.svg
+[npm-deps-url]: https://david-dm.org/moimikey/shitty-uber
+[npm-deps-image]: https://img.shields.io/david/moimikey/shitty-uber.svg
+[npm-devdeps-url]: https://david-dm.org/moimikey/shitty-uber
+[npm-devdeps-image]: https://img.shields.io/david/dev/moimikey/shitty-uber.svg
 [drone-build-image]: https://drone.io/github.com/moimikey/shitty-uber/status.png
 [drone-build-url]: https://drone.io/github.com/moimikey/shitty-uber/latest
