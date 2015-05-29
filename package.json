@@ -34,7 +34,8 @@
   "homepage": "https://github.com/moimikey/shitty-uber",
   "optionalDependencies": {
     "babel": "^5.4.3",
-    "chalk": "^1.0.0"
+    "chalk": "^1.0.0",
+    "text-table": "^0.2.0"
   },
   "dependencies": {
     "node-geocoder": "^2.21.0",
