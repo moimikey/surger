@@ -40,7 +40,7 @@
     "uber-api": "^0.3",
     "wifi-location": "^0.0.1",
     "text-table": "^0.2.0"
-},
+  },
   "preferGlobal": true,
   "bin": {
     "surger": "node ./index.js"
