@@ -4,8 +4,10 @@
   "description": "CLI wifi gps powered surge pricing indicator for Uber",
   "main": "index.js",
   "scripts": {
-    "pile": "babel -d lib/ src/",
-    "prepublish": "npm run pile"
+    "pile": "babel --stage 0 -d lib/ src/",
+    "prepublish": "npm run pile",
+    "test": "jest",
+    "start": "node ./index.js"
   },
   "repository": {
     "type": "git",
@@ -41,6 +43,9 @@
 },
   "preferGlobal": true,
   "bin": {
-    "surger": "./index.js"
+    "surger": "node ./index.js"
+  },
+  "devDependencies": {
+    "jest-cli": "*"
   }
 }
