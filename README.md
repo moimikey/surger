@@ -26,9 +26,9 @@ uberT       ✔ GOOD
 [npm-license-image]: https://img.shields.io/npm/l/surger.svg
 [npm-downloads-url]: https://www.npmjs.com/package/surger
 [npm-downloads-image]: https://img.shields.io/npm/dm/surger.svg
-[npm-deps-url]: https://david-dm.org/moimikey/shitty-uber
-[npm-deps-image]: https://img.shields.io/david/moimikey/shitty-uber.svg
-[npm-devdeps-url]: https://david-dm.org/moimikey/shitty-uber
-[npm-devdeps-image]: https://img.shields.io/david/dev/moimikey/shitty-uber.svg
+[npm-deps-url]: https://david-dm.org/moimikey/surger
+[npm-deps-image]: https://img.shields.io/david/moimikey/surger.svg
+[npm-devdeps-url]: https://david-dm.org/moimikey/surger
+[npm-devdeps-image]: https://img.shields.io/david/dev/moimikey/surger.svg
 [drone-build-image]: https://drone.io/github.com/moimikey/shitty-uber/status.png
 [drone-build-url]: https://drone.io/github.com/moimikey/shitty-uber/latest
