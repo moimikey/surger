@@ -43,7 +43,7 @@
   },
   "preferGlobal": true,
   "bin": {
-    "surger": "node ./index.js"
+    "surger": "./index.js"
   },
   "devDependencies": {
     "jest-cli": "*"
