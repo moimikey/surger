@@ -64,7 +64,7 @@ export default class Surge {
       if (err) return cb(err)
       this.estimates = resp.prices.map((type) => {
         let good = yay(' ✔ GOOD ')
-        let bad  = nay(' $ SURGE', chalk.white.bgRed(type.surge_multiplier + 'x '))
+        let bad  = nay(' $ SURGE', type.surge_multiplier + 'x ')
         return [
           type.localized_display_name,             // UberX, UberT, etc.
           type.surge_multiplier === 1 ? good : bad // Surge Pricing?
