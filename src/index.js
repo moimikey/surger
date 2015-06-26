@@ -63,8 +63,8 @@ export default class Surge {
     uber.getPriceEstimate({ sLat: lat, sLng: lng, eLat: lat, eLng: lng }, (err, resp) => {
       if (err) return cb(err)
       this.estimates = resp.prices.map((type) => {
-        let good = yay(' ✔ GOOD ')
-        let bad  = nay(' $ SURGE', type.surge_multiplier + 'x ')
+        let good = yay(` ✔ GOOD `)
+        let bad  = nay(` $ SURGE ${type.surge_multiplier}x [min. ${type.estimate}]`)
         return [
           type.localized_display_name,             // UberX, UberT, etc.
           type.surge_multiplier === 1 ? good : bad // Surge Pricing?
