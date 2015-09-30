@@ -34,18 +34,18 @@
   },
   "homepage": "https://github.com/moimikey/shitty-uber",
   "dependencies": {
-    "babel": "^5.4",
-    "chalk": "^1.0",
-    "node-geocoder": "^2.21",
-    "uber-api": "^0.3",
-    "wifi-location": "^0.0.1",
-    "text-table": "^0.2.0"
+    "babel": "5.8.23",
+    "chalk": "1.1.1",
+    "node-geocoder": "2.23.0",
+    "uber-api": "0.3.3",
+    "wifi-location": "0.0.1",
+    "text-table": "0.2.0"
   },
   "preferGlobal": true,
   "bin": {
     "surger": "./index.js"
   },
   "devDependencies": {
-    "jest-cli": "*"
+    "jest-cli": "0.5.8"
   }
 }
