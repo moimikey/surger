@@ -46,6 +46,6 @@
     "surger": "./index.js"
   },
   "devDependencies": {
-    "jest-cli": "0.5.8"
+    "jest-cli": "0.6.0"
   }
 }
