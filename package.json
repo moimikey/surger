@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/moimikey/shitty-uber",
   "dependencies": {
-    "babel": "5.8.29",
+    "babel": "6.0.0",
     "chalk": "1.1.1",
     "node-geocoder": "3.4.1",
     "uber-api": "0.3.3",
