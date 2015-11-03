@@ -1,13 +1,13 @@
-'use strict'
+import chalk from 'chalk'
+import table from 'text-table'
+import gps   from 'wifi-location'
 
-const chalk = require('chalk')
-const table = require('text-table')
-const gps   = require('wifi-location')
-const geo   = require('node-geocoder')('google', 'http')
-const pkg   = require('../package')
-const uber  = require('uber-api')(pkg.uber)
-const yay   = chalk.dim.bgGreen.bold
-const nay   = chalk.white.bgRed.bold
+const geo  = require('node-geocoder')('google', 'http')
+const pkg  = require('../package')
+const uber = require('uber-api')(pkg.uber)
+
+const yay  = chalk.dim.bgGreen.bold
+const nay  = chalk.white.bgRed.bold
 
 export default new class Surge {
   constructor() {
@@ -16,7 +16,7 @@ export default new class Surge {
   }
 
   isNonEmptyObject(obj) {
-    return Object.getOwnPropertyNames(obj || {}).length !== 0
+    return Object.getOwnPropertyNames(obj || Object.create(null)).length !== 0
   }
 
   flatten(arr) {
@@ -54,7 +54,7 @@ export default new class Surge {
 
   getDetailsFromLatLng(cb, lat, lng) {
     geo.reverse({ lat: lat, lon: lng }, ((err, res) => {
-      if (err) cb(err)
+      if (err) return cb(err)
       cb(null, res)
     }))
   }
