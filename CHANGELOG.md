@@ -11,6 +11,7 @@
 * chore(package): update babel-cli to version 6.3.15 ([fd55802](https://github.com/moimikey/shitty-uber/commit/fd55802))
 * chore(package): update node-geocoder to version 3.5.0 ([7dbbd38](https://github.com/moimikey/shitty-uber/commit/7dbbd38))
 
+* add changelog ([6f2488f](https://github.com/moimikey/shitty-uber/commit/6f2488f))
 * Merge pull request #19 from moimikey/greenkeeper-babel-cli-6.1.2 ([b205a9e](https://github.com/moimikey/shitty-uber/commit/b205a9e))
 * Merge pull request #21 from moimikey/greenkeeper-babel-cli-6.1.4 ([73d25ab](https://github.com/moimikey/shitty-uber/commit/73d25ab))
 * Merge pull request #23 from moimikey/greenkeeper-babel-cli-6.1.18 ([0fa3767](https://github.com/moimikey/shitty-uber/commit/0fa3767))
