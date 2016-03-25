@@ -1,18 +1,20 @@
+import EventEmitter from 'eventemitter2'
 import chalk from 'chalk'
 import table from 'text-table'
-import gps   from 'wifi-location'
-
-const geo  = require('node-geocoder')('google', 'http')
+import gps from 'wifi-location'
+import stripansi from 'strip-ansi'
 const pkg  = require('../package')
+const geo  = require('node-geocoder')('google', 'http')
 const uber = require('uber-api')(pkg.uber)
-
-const yay  = chalk.dim.bgGreen.bold
-const nay  = chalk.white.bgRed.bold
-
-export new class Surge {
-  constructor() {
+class Surger {
+  constructor(options=Object.create(null)) {
+    this.options = options
     this.estimates = []
-    this.getCoords(this.handleCoords.bind(this))
+    this.emitter = new EventEmitter({ wildcard: true })
+    this.options.debug && this.emitter.on('debug.*', function(title, ...message) {
+      console.warn(chalk.red.bold(this.event), chalk.green.bold(title), ...message)
+    })
+    this.getCoords(::this.handleCoords)
   }
 
   isNonEmptyObject(obj) {
@@ -20,16 +22,14 @@ export new class Surge {
   }
 
   flatten(arr) {
-    return arr.reduce((i, chunk) => {
-      return i.concat(chunk)
-    })
+    return arr.reduce((i, chunk) => i.concat(chunk))
   }
 
-  handleCoords(err, data) {
+  handleCoords(err, { lat, lng }) {
     if (err) throw (err)
-    let { lat, lng } = data
-    this.getDetailsFromLatLng(this.handleDetails.bind(this), lat, lng)
-    this.getPriceEstimateFromLatLng(this.handlePriceEstimate.bind(this), lat, lng)
+    this.emitter.emit('debug.handleCoords', 'location confirmed from `getCoords`')
+    this.getDetailsFromLatLng(::this.handleDetails, lat, lng)
+    this.getPriceEstimateFromLatLng(::this.handlePriceEstimate, lat, lng)
   }
 
   handlePriceEstimate(err, estimates) {
@@ -60,6 +60,9 @@ export new class Surge {
   }
 
   getPriceEstimateFromLatLng(cb, lat, lng) {
+    const yay = chalk.dim.bgGreen.bold
+    const nay = chalk.white.bgRed.bold
+    this.emitter.emit('debug.getPriceEstimateFromLatLng', 'getting estimate')
     uber.getPriceEstimate({ sLat: lat, sLng: lng, eLat: lat, eLng: lng }, (err, resp) => {
       if (err) return cb(err)
       this.estimates = resp.prices.map((type) => {
@@ -70,15 +73,24 @@ export new class Surge {
           type.surge_multiplier === 1 ? good : bad // Surge Pricing?
         ]
       })
+      this.emitter.emit('debug.estimates', 'estimates', JSON.stringify(this.estimates.map(a => a.map(stripansi))))
       cb(null, this.estimates)
     })
   }
 
   getCoords(cb) {
+    this.emitter.emit('debug.getCoords', 'finding towers')
     gps.getTowers((err, towers) => {
+      this.emitter.emit('debug.getCoords', `found ${towers.length} tower(s)`)
+      this.emitter.emit('debug.getTowers', 'err', err)
+      this.emitter.emit('debug.getTowers', 'towers', JSON.stringify(towers))
       if (err) return cb(err)
+      this.emitter.emit('debug.getCoords', 'finding location')
       gps.getLocation(towers, (err, location) => {
+        this.emitter.emit('debug.getLocation', 'err', err)
+        this.emitter.emit('debug.getLocation', 'location', JSON.stringify(location))
         if (err) return cb(err)
+        this.emitter.emit('debug.getCoords', 'confirming location')
         if (!this.isNonEmptyObject(location)) return cb(Error(chalk.dim.red('Briefly unable to locate you. Try again.')))
         let { latitude, longitude } = location
         let coords = { lat: latitude, lng: longitude }
@@ -86,4 +98,8 @@ export new class Surge {
       })
     })
   }
+}
+
+export function init(options) {
+  return new Surger(options)
 }
