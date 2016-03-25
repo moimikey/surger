@@ -9,7 +9,7 @@ const uber = require('uber-api')(pkg.uber)
 const yay  = chalk.dim.bgGreen.bold
 const nay  = chalk.white.bgRed.bold
 
-export default new class Surge {
+export new class Surge {
   constructor() {
     this.estimates = []
     this.getCoords(this.handleCoords.bind(this))

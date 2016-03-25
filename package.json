@@ -4,9 +4,9 @@
   "description": "CLI wifi gps powered surge pricing indicator for Uber",
   "main": "index.js",
   "scripts": {
-    "pile": "babel -d lib/ src/",
-    "prepublish": "npm run pile",
-    "start": "babel-node ./index.js"
+    "build": "babel -d lib/ src/",
+    "test": "echo dont h8",
+    "start": "./index.js"
   },
   "repository": {
     "type": "git",
@@ -44,5 +44,8 @@
   "preferGlobal": true,
   "bin": {
     "surger": "./index.js"
+  },
+  "devDependencies": {
+    "babel-preset-stage-0": "^6.5.0"
   }
 }
