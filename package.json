@@ -33,6 +33,7 @@
   },
   "homepage": "https://github.com/moimikey/shitty-uber",
   "dependencies": {
+    "babel-runtime": "6.6.1",
     "chalk": "1.1.3",
     "eventemitter2": "1.0.0",
     "minimist": "1.2.0",
