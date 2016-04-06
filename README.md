@@ -20,6 +20,32 @@ uberT       ✔ GOOD
 
 > yaaaasss queen yaaaaasssss
 
+# debug
+```
+$ surger --debug                                                                      !2882
+debug.getCoords finding towers
+debug.getCoords found 2 tower(s)
+debug.getTowers err null
+debug.getTowers towers [{"mac":"41:5f:32:5c:61:7c","ssid":"FiOS-02JG1","signal_level":"-90"},{"mac":"00:27:62:a4:14:81","ssid":"ARC","signal_level":"-62"}]
+debug.getCoords finding location
+debug.getLocation err null
+debug.getLocation location {"accuracy":30,"latitude":31.0206837,"longitude":-76.02599699999999}
+debug.getCoords confirming location
+debug.handleCoords location confirmed from `getCoords`
+debug.getPriceEstimateFromLatLng getting estimate
+
+Location:  Nearby Strout Street
+
+debug.estimates estimates [["uberX"," ✔ GOOD "],["uberXL"," ✔ GOOD "],["uberX + Car Seat"," ✔ GOOD "],["UberBLACK"," ✔ GOOD "],["UberSUV"," ✔ GOOD "],["BLACK CAR + Car Seat"," ✔ GOOD "],["SUV + Car Seat"," ✔ GOOD "]]
+uberX                  ✔ GOOD
+uberXL                 ✔ GOOD
+uberX + Car Seat       ✔ GOOD
+UberBLACK              ✔ GOOD
+UberSUV                ✔ GOOD
+BLACK CAR + Car Seat   ✔ GOOD
+SUV + Car Seat         ✔ GOOD
+```
+
 [npm-version-url]: https://www.npmjs.com/package/surger
 [npm-version-image]: https://img.shields.io/npm/v/surger.svg
 [npm-license-url]: https://github.com/moimikey/surger/blob/master/LICENSE
