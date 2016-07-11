@@ -25,8 +25,9 @@ class Surger {
     return arr.reduce((i, chunk) => i.concat(chunk))
   }
 
-  handleCoords(err, { lat, lng }) {
+  handleCoords(err, { lat = 0, lng = 0 }) {
     if (err) throw (err)
+    if (!lat || !lng) throw Error(chalk.dim.red('Unable to get coordinates.'))
     this.emitter.emit('debug.handleCoords', 'location confirmed from `getCoords`')
     this.getDetailsFromLatLng(::this.handleDetails, lat, lng)
     this.getPriceEstimateFromLatLng(::this.handlePriceEstimate, lat, lng)
@@ -81,19 +82,19 @@ class Surger {
   getCoords(cb) {
     this.emitter.emit('debug.getCoords', 'finding towers')
     gps.getTowers((err, towers) => {
+      if (err) return cb(err)
       this.emitter.emit('debug.getCoords', `found ${towers.length} tower(s)`)
       this.emitter.emit('debug.getTowers', 'err', err)
       this.emitter.emit('debug.getTowers', 'towers', JSON.stringify(towers))
-      if (err) return cb(err)
       this.emitter.emit('debug.getCoords', 'finding location')
       gps.getLocation(towers, (err, location) => {
+        if (err) return cb(err)
+        if (!this.isNonEmptyObject(location)) return cb(Error(chalk.dim.red('Briefly unable to locate you. Try again.')))
+        let { latitude = 0, longitude = 0 } = location
+        let coords = { lat: latitude, lng: longitude }
         this.emitter.emit('debug.getLocation', 'err', err)
         this.emitter.emit('debug.getLocation', 'location', JSON.stringify(location))
-        if (err) return cb(err)
         this.emitter.emit('debug.getCoords', 'confirming location')
-        if (!this.isNonEmptyObject(location)) return cb(Error(chalk.dim.red('Briefly unable to locate you. Try again.')))
-        let { latitude, longitude } = location
-        let coords = { lat: latitude, lng: longitude }
         cb(null, coords)
       })
     })
