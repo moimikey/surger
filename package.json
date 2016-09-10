@@ -1,6 +1,6 @@
 {
   "name": "surger",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "CLI wifi gps powered surge pricing indicator for Uber",
   "main": "index.js",
   "scripts": {
