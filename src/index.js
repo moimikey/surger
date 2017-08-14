@@ -3,9 +3,11 @@ import chalk from 'chalk'
 import table from 'text-table'
 import gps from 'wifi-location'
 import stripansi from 'strip-ansi'
+
 const pkg  = require('../package')
 const geo  = require('node-geocoder')('google', 'http')
 const uber = require('uber-api')(pkg.uber)
+
 class Surger {
   constructor(options=Object.create(null)) {
     this.options = options
@@ -25,7 +27,7 @@ class Surger {
     return arr.reduce((i, chunk) => i.concat(chunk))
   }
 
-  handleCoords(err, { lat = 0, lng = 0 }) {
+  handleCoords(err, { lat = 0, lng = 0 } = {}) {
     if (err) throw (err)
     if (!lat || !lng) throw Error(chalk.dim.red('Unable to get coordinates.'))
     this.emitter.emit('debug.handleCoords', 'location confirmed from `getCoords`')
@@ -54,7 +56,7 @@ class Surger {
   }
 
   getDetailsFromLatLng(cb, lat, lng) {
-    geo.reverse({ lat: lat, lon: lng }, ((err, res) => {
+    geo.reverse({ lat: lat, lon: lng } = {}, ((err, res) => {
       if (err) return cb(err)
       cb(null, res)
     }))
@@ -64,7 +66,7 @@ class Surger {
     const yay = chalk.dim.bgGreen.bold
     const nay = chalk.white.bgRed.bold
     this.emitter.emit('debug.getPriceEstimateFromLatLng', 'getting estimate')
-    uber.getPriceEstimate({ sLat: lat, sLng: lng, eLat: lat, eLng: lng }, (err, resp) => {
+    uber.getPriceEstimate({ sLat: lat, sLng: lng, eLat: lat, eLng: lng } = {}, (err, resp) => {
       if (err) return cb(err)
       this.estimates = resp.prices.map((type) => {
         let good = yay(` ✔ GOOD `)
@@ -89,8 +91,8 @@ class Surger {
       this.emitter.emit('debug.getCoords', 'finding location')
       gps.getLocation(towers, (err, location) => {
         if (err) return cb(err)
-        if (!this.isNonEmptyObject(location)) return cb(Error(chalk.dim.red('Briefly unable to locate you. Try again.')))
-        let { latitude = 0, longitude = 0 } = location
+        if (!this.isNonEmptyObject(location)) return cb(Error(chalk.dim.red('Briefly unable to locate you. Try again in a moment.')))
+        let { latitude = 0, longitude = 0 } = location || {}
         let coords = { lat: latitude, lng: longitude }
         this.emitter.emit('debug.getLocation', 'err', err)
         this.emitter.emit('debug.getLocation', 'location', JSON.stringify(location))

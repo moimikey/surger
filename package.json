@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/moimikey/shitty-uber.git"
+    "url": "https://github.com/moimikey/surger.git"
   },
   "reveal": true,
   "keywords": [
@@ -26,32 +26,32 @@
   "author": "Michael Scott Hertzberg <mshertzberg@gmail.com> (http://hertzber.gs/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/moimikey/shitty-uber/issues"
+    "url": "https://github.com/moimikey/surger/issues"
   },
   "uber": {
     "server_token": "x6SAyWgpNOXZok67eaHRzYzRWEsDOgsGRn4xbjui",
     "version": "v1"
   },
-  "homepage": "https://github.com/moimikey/shitty-uber",
+  "homepage": "https://github.com/moimikey/surger",
   "dependencies": {
-    "babel-runtime": "6.23.0",
-    "chalk": "1.1.3",
-    "eventemitter2": "4.1.0",
-    "minimist": "1.2.0",
-    "node-geocoder": "3.16.0",
-    "text-table": "0.2.0",
-    "uber-api": "0.3.3",
-    "wifi-location": "0.0.1"
+    "babel-runtime": "^6.25.0",
+    "chalk": "^2.1.0",
+    "eventemitter2": "^4.1.2",
+    "minimist": "^1.2.0",
+    "node-geocoder": "^3.19.0",
+    "text-table": "^0.2.0",
+    "uber-api": "^0.3.3",
+    "wifi-location": "^0.0.1"
   },
   "preferGlobal": true,
   "bin": {
     "surger": "./index.js"
   },
   "devDependencies": {
-    "babel-cli": "6.24.1",
-    "babel-plugin-transform-runtime": "6.23.0",
-    "babel-preset-es2015": "6.24.1",
-    "babel-preset-stage-0": "6.24.1",
-    "strip-ansi": "3.0.1"
+    "babel-cli": "^6.24.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "strip-ansi": "^4.0.0"
   }
 }
