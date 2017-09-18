@@ -1,4 +1,6 @@
 # surger
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/moimikey/surger.svg)](https://greenkeeper.io/)
 [![Version][npm-version-image]][npm-version-url] [![License][npm-license-image]][npm-license-url] [![Downloads][npm-downloads-image]][npm-downloads-url] [![Deps][npm-deps-image]][npm-deps-url] [![DevDeps][npm-devdeps-image]][npm-devdeps-url]
 
 ## about
