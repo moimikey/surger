@@ -1,104 +1,110 @@
+import * as util from 'util'
 import EventEmitter from 'eventemitter2'
 import chalk from 'chalk'
 import table from 'text-table'
-import gps from 'wifi-location'
+import gps from 'current-location'
 import stripansi from 'strip-ansi'
 
-const pkg  = require('../package')
-const geo  = require('node-geocoder')('google', 'http')
-const uber = require('uber-api')(pkg.uber)
+const pkg = require('../package')
+const uber = new (require('node-uber'))(pkg.uber)
+const geo = require('node-geocoder')(pkg.geo)
 
 class Surger {
-  constructor(options=Object.create(null)) {
+  constructor(options = {}) {
     this.options = options
     this.estimates = []
     this.emitter = new EventEmitter({ wildcard: true })
     this.options.debug && this.emitter.on('debug.*', function(title, ...message) {
-      console.warn(chalk.red.bold(this.event), chalk.green.bold(title), ...message)
+      console.warn(chalk.red.bold(this.event), chalk.magenta(title), ...message)
     })
-    this.getCoords(::this.handleCoords)
+    this.getCoords(this.handleCoords).catch(err => {
+      this.emitter.emit('debug.surger', 'getCoords failed', err)
+      console.error(err)
+    });
   }
 
-  isNonEmptyObject(obj) {
-    return Object.getOwnPropertyNames(obj || Object.create(null)).length !== 0
+  isNonEmptyObject = (obj) => {
+    return Object.getOwnPropertyNames(obj || {}).length !== 0
   }
 
-  flatten(arr) {
-    return arr.reduce((i, chunk) => i.concat(chunk))
+  handleCoords = ({ lat, lng }) => {
+    return this.getDetailsFromLatLng(lat, lng).then(() => {
+      return this.getPriceEstimateFromLatLng(lat, lng).catch((err) => {
+        this.emitter.emit('debug.handleCoords', 'getPriceEstimateFromLatLng failed', err)
+        throw err
+      })
+    })
+    .catch(err => {
+      this.emitter.emit('debug.handleCoords', 'getDetailsFromLatLng failed', err)
+      throw err
+    })
   }
 
-  handleCoords(err, { lat = 0, lng = 0 } = {}) {
-    if (err) throw (err)
-    if (!lat || !lng) throw Error(chalk.dim.red('Unable to get coordinates.'))
-    this.emitter.emit('debug.handleCoords', 'location confirmed from `getCoords`')
-    this.getDetailsFromLatLng(::this.handleDetails, lat, lng)
-    this.getPriceEstimateFromLatLng(::this.handlePriceEstimate, lat, lng)
-  }
-
-  handlePriceEstimate(err, estimates) {
+  handlePriceEstimate = (err, estimates) => {
     if (err) throw (err)
     this.parseEstimates(estimates)
   }
 
-  handleDetails(err, details) {
-    if (err) throw (err)
-    this.parseDetails(this.flatten(details))
-  }
-
-  parseEstimates(estimates) {
+  parseEstimates = (estimates) => {
     console.log(table(estimates))
   }
 
-  parseDetails(details) {
+  parseDetails = (details) => {
+    const { streetName } = details.find(Object)
     console.log('')
-    console.log('Location:  Nearby', chalk.dim.blue(details.streetName))
+    console.log('Estimates near', chalk.blue(streetName))
     console.log('')
   }
 
-  getDetailsFromLatLng(cb, lat, lng) {
-    geo.reverse({ lat: lat, lon: lng } = {}, ((err, res) => {
-      if (err) return cb(err)
-      cb(null, res)
-    }))
+  getDetailsFromLatLng = (lat, lng) => {
+    this.emitter.emit('debug.getDetailsFromLatLng', 'geo reversing', lat, lng)
+    return geo.reverse({ lat: lat, lon: lng }).then(details => this.parseDetails(details))
   }
 
-  getPriceEstimateFromLatLng(cb, lat, lng) {
+  getPriceEstimateFromLatLng = (lat, lng) => {
     const yay = chalk.dim.bgGreen.bold
     const nay = chalk.white.bgRed.bold
-    this.emitter.emit('debug.getPriceEstimateFromLatLng', 'getting estimate')
-    uber.getPriceEstimate({ sLat: lat, sLng: lng, eLat: lat, eLng: lng } = {}, (err, resp) => {
-      if (err) return cb(err)
-      this.estimates = resp.prices.map((type) => {
-        let good = yay(` ✔ GOOD `)
-        let bad  = nay(` $ SURGE ${type.surge_multiplier}x [min. ${type.estimate}]`)
+    this.emitter.emit('debug.getPriceEstimateFromLatLng', 'getting estimates')
+    return uber.estimates.getPriceForRouteAsync(lat, lng, lat, lng).then(resp => {
+      this.estimates = resp.prices.map(resp => {
+        this.emitter.emit('debug.getPriceEstimateFromLatLng', 'getPriceForRouteAsync', JSON.stringify(resp))
+        const {
+          currency_code,
+          display_name,
+          distance,
+          duration,
+          estimate,
+          high_estimate,
+          localized_display_name,
+          low_estimate,
+          product_id,
+          surge_multiplier = 1,
+        } = resp
         return [
-          type.localized_display_name,             // UberX, UberT, etc.
-          type.surge_multiplier === 1 ? good : bad // Surge Pricing?
+          // UberX, UberT, etc.
+          localized_display_name,
+          // Surge Pricing?
+          surge_multiplier === 1
+            ? yay(` ✔ GOOD [min. ${low_estimate} ${currency_code}]`)
+            : nay(` $ SURGE ${surge_multiplier}x [min. ${estimate} ${currency_code}]`)
         ]
       })
       this.emitter.emit('debug.estimates', 'estimates', JSON.stringify(this.estimates.map(a => a.map(stripansi))))
-      cb(null, this.estimates)
+      this.parseEstimates(this.estimates)
+    })
+    .error(err => {
+      this.emitter.emit('debug.getPriceEstimateFromLatLng', 'getting estimate failed')
+      throw err
     })
   }
 
-  getCoords(cb) {
-    this.emitter.emit('debug.getCoords', 'finding towers')
-    gps.getTowers((err, towers) => {
-      if (err) return cb(err)
-      this.emitter.emit('debug.getCoords', `found ${towers.length} tower(s)`)
-      this.emitter.emit('debug.getTowers', 'err', err)
-      this.emitter.emit('debug.getTowers', 'towers', JSON.stringify(towers))
-      this.emitter.emit('debug.getCoords', 'finding location')
-      gps.getLocation(towers, (err, location) => {
-        if (err) return cb(err)
-        if (!this.isNonEmptyObject(location)) return cb(Error(chalk.dim.red('Briefly unable to locate you. Try again in a moment.')))
-        let { latitude = 0, longitude = 0 } = location || {}
-        let coords = { lat: latitude, lng: longitude }
-        this.emitter.emit('debug.getLocation', 'err', err)
-        this.emitter.emit('debug.getLocation', 'location', JSON.stringify(location))
-        this.emitter.emit('debug.getCoords', 'confirming location')
-        cb(null, coords)
-      })
+  getCoords = (cb) => {
+    const gpsP = util.promisify(gps)
+    this.emitter.emit('debug.getCoords', 'finding location')
+    return gpsP().then(location => {
+      let { latitude, longitude } = location || {}
+      this.emitter.emit('debug.getCoords', 'confirmed location', Object.values(location))
+      return cb({ lat: latitude, lng: longitude })
     })
   }
 }
